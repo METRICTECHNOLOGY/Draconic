@@ -1,0 +1,41 @@
+{
+  "_v": 2,
+  "name": "Unbreakable Reroll",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Moxie Points",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "str",
+          "fail": [
+            {
+              "type": "text",
+              "text": "Reroll failed — use the new result."
+            }
+          ],
+          "success": [
+            {
+              "type": "text",
+              "text": "Reroll succeeded — use the new result."
+            }
+          ],
+          "dc": "10"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "Replace this with a manual reroll of the original save. The save node above is just a roller — substitute the stat and DC of the failed save by editing the action, or use `!s <stat>` directly. Unbreakable also grants permanent **Advantage** on Str/Dex/Con saves (passive — apply with `-adv` on `!s`)."
+    }
+  ],
+  "activation_type": 6,
+  "verb": "shrugs off",
+  "thumb": null
+}

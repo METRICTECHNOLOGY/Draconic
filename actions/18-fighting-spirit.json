@@ -1,0 +1,46 @@
+{
+  "_v": 2,
+  "name": "Fighting Spirit",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Fighting Spirit",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "damage",
+          "damage": "-1 [healing]"
+        },
+        {
+          "type": "text",
+          "text": "Drop to 1 HP (set with `!g hp 1` if needed)."
+        },
+        {
+          "type": "temphp",
+          "amount": "hp // 2"
+        },
+        {
+          "type": "counter",
+          "counter": "Moxie Points",
+          "amount": "-1 * (get_cc_max('Moxie Points') - get_cc('Moxie Points'))"
+        },
+        {
+          "type": "ieffect2",
+          "name": "Fighting Spirit",
+          "duration": 10,
+          "effects": {
+            "resistances": ["bludgeoning", "piercing", "slashing", "acid", "cold", "fire", "lightning", "necrotic", "poison", "psychic", "radiant", "thunder"]
+          },
+          "desc": "Resistance to all damage except Force for 1 minute. All Moxie restored."
+        }
+      ]
+    }
+  ],
+  "activation_type": 6,
+  "verb": "summons fighting spirit,",
+  "thumb": null
+}

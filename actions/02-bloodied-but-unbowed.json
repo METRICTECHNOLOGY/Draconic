@@ -1,0 +1,74 @@
+{
+  "_v": 2,
+  "name": "Bloodied But Unbowed",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Bloodied But Unbowed",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "counter",
+          "counter": "Moxie Points",
+          "amount": "-1 * (get_cc_max('Moxie Points') - get_cc('Moxie Points'))"
+        },
+        {
+          "type": "text",
+          "text": "All expended Moxie Points regained."
+        },
+        {
+          "type": "condition",
+          "condition": "currentHp <= hp / 2",
+          "onTrue": [
+            {
+              "type": "temphp",
+              "amount": "4 * levels.pugilist"
+            },
+            {
+              "type": "ieffect2",
+              "name": "Bloodied But Unbowed",
+              "duration": -1,
+              "effects": {},
+              "desc": "Temp HP from BBU vanish at end of next Short Rest."
+            },
+            {
+              "type": "condition",
+              "condition": "levels.pugilist >= 7 and get_cc('Down But Not Out') > 0",
+              "onTrue": [
+                {
+                  "type": "counter",
+                  "counter": "Down But Not Out",
+                  "amount": "1"
+                },
+                {
+                  "type": "ieffect2",
+                  "name": "Down But Not Out",
+                  "duration": 10,
+                  "effects": {
+                    "damage_bonus": "{constitutionMod}"
+                  },
+                  "desc": "Bonus to Unarmed Strike & Pugilist weapon damage = CON + Exhaustion levels (add exhaustion manually) for 1 minute."
+                }
+              ],
+              "onFalse": [],
+              "errorBehaviour": "false"
+            }
+          ],
+          "onFalse": [
+            {
+              "type": "text",
+              "text": "Not Bloodied — no Temp HP gained."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "activation_type": 4,
+  "verb": "refuses to stay down,",
+  "thumb": null
+}

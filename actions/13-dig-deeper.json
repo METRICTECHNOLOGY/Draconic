@@ -1,0 +1,29 @@
+{
+  "_v": 2,
+  "name": "Dig Deeper",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Dig Deeper",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Dig Deeper",
+          "duration": 10,
+          "effects": {
+            "resistances": ["bludgeoning", "piercing", "slashing"]
+          },
+          "desc": "Resistance to B/P/S, ignore Exhaustion levels below 6, and School of Hard Knocks may trigger twice per turn instead of once. 1 minute."
+        }
+      ]
+    }
+  ],
+  "activation_type": 3,
+  "verb": "digs deeper,",
+  "thumb": null
+}
