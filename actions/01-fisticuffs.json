@@ -1,0 +1,30 @@
+{
+  "_v": 2,
+  "name": "Fisticuffs (Unarmed Strike)",
+  "automation": [
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "attack",
+          "hit": [
+            {
+              "type": "damage",
+              "damage": "<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>+{strengthMod} [bludgeoning]"
+            }
+          ],
+          "miss": [],
+          "attackBonus": "{strengthMod}+{proficiencyBonus}"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "**Heavy Hitter** (L3+): on a hit you may also Grapple or Shove. **Moxie-Fueled Fists** (L6+): you may swap the damage type to Force."
+    }
+  ],
+  "activation_type": 1,
+  "verb": "throws fists at",
+  "thumb": null
+}

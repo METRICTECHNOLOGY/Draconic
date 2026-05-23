@@ -1,0 +1,28 @@
+{
+  "_v": 2,
+  "name": "Shake It Off",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Shake It Off",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "text",
+          "text": "Remove one Exhaustion level on yourself, **or** end one of: Blinded, Charmed, Deafened, Frightened, Paralyzed, Poisoned, Restrained, Stunned. Use `!i effect <name> -end <condition>` or `!cc reset <exhaustion counter>` accordingly."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "Recharges on a Long Rest. You may instead take 1 level of Exhaustion (no action required) to restore this use immediately."
+    }
+  ],
+  "activation_type": 6,
+  "verb": "shakes off",
+  "thumb": null
+}

@@ -1,0 +1,30 @@
+{
+  "_v": 2,
+  "name": "Swagger Streak",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Moxie Points",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "roll",
+          "dice": "<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>",
+          "name": "swagger",
+          "displayName": "Swagger Streak"
+        },
+        {
+          "type": "text",
+          "text": "Add **<{swagger}>** to your failed Str/Dex/Con/Cha ability check. If it still fails, refund the Moxie Point and burn your `Swagger Streak` counter — you can't use this feature again until you finish a Short or Long Rest."
+        }
+      ]
+    }
+  ],
+  "activation_type": 6,
+  "verb": "swaggers through",
+  "thumb": null
+}

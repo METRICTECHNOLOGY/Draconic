@@ -1,0 +1,37 @@
+{
+  "_v": 2,
+  "name": "Brace Up",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Moxie Points",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "roll",
+          "dice": "<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>",
+          "name": "fistroll",
+          "displayName": "Fisticuffs Die"
+        },
+        {
+          "type": "temphp",
+          "amount": "fistroll + levels.pugilist + constitutionMod"
+        },
+        {
+          "type": "ieffect2",
+          "name": "Brace Up",
+          "duration": 100,
+          "effects": {},
+          "desc": "Temp HP from Brace Up. Vanishes if any remain after 10 minutes."
+        }
+      ]
+    }
+  ],
+  "activation_type": 3,
+  "verb": "braces up",
+  "thumb": null
+}

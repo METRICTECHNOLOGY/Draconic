@@ -1,0 +1,32 @@
+{
+  "_v": 2,
+  "name": "School of Hard Knocks — Endanger",
+  "automation": [
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Endangered",
+          "duration": -1,
+          "effects": {},
+          "desc": "Next attack that hits this creature deals maximum damage (instead of rolling). The DM should expire this ieffect after applying.",
+          "end": [
+            {
+              "type": "text",
+              "text": "Endanger consumed — that attack deals max damage."
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "Forgo the SoHK damage. On the next attack that hits the target, roll `!a ... -d \"max(<dice>)\"` or apply max damage manually."
+        }
+      ]
+    }
+  ],
+  "activation_type": 6,
+  "verb": "endangers",
+  "thumb": null
+}

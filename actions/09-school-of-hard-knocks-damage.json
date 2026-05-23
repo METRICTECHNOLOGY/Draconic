@@ -1,0 +1,23 @@
+{
+  "_v": 2,
+  "name": "School of Hard Knocks — Damage",
+  "automation": [
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "damage",
+          "damage": "1d12 [bludgeoning]"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "Once per turn rider on a successful Unarmed Strike or Pugilist-weapon hit. Change the damage type in the JSON if the triggering weapon dealt P/S. At L13+ via **Dig Deeper**, usable twice per turn."
+    }
+  ],
+  "activation_type": 6,
+  "verb": "schools",
+  "thumb": null
+}

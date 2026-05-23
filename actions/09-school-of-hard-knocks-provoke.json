@@ -1,0 +1,24 @@
+{
+  "_v": 2,
+  "name": "School of Hard Knocks — Provoke",
+  "automation": [
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Provoked",
+          "duration": 2,
+          "effects": {
+            "attack_advantage": -1
+          },
+          "desc": "Disadvantage on attack rolls against creatures other than the Pugilist until the end of the Pugilist's next turn. Avrae applies disadvantage globally — manually drop it on attacks targeting the Pugilist."
+        }
+      ]
+    }
+  ],
+  "activation_type": 6,
+  "verb": "provokes",
+  "thumb": null
+}

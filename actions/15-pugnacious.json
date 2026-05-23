@@ -1,0 +1,39 @@
+{
+  "_v": 2,
+  "name": "Pugnacious",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Pugnacious",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "counter",
+          "counter": "Down But Not Out",
+          "amount": "-1 * (get_cc_max('Down But Not Out') - get_cc('Down But Not Out'))"
+        },
+        {
+          "type": "counter",
+          "counter": "Dig Deep",
+          "amount": "-1 * (get_cc_max('Dig Deep') - get_cc('Dig Deep'))"
+        },
+        {
+          "type": "counter",
+          "counter": "Shake It Off",
+          "amount": "-1 * (get_cc_max('Shake It Off') - get_cc('Shake It Off'))"
+        },
+        {
+          "type": "text",
+          "text": "Roll initiative — Down But Not Out, Dig Deep, and Shake It Off restored. Remove one level of Exhaustion manually."
+        }
+      ]
+    }
+  ],
+  "activation_type": 6,
+  "verb": "rolls initiative pugnaciously,",
+  "thumb": null
+}

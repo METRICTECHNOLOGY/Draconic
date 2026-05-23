@@ -1,0 +1,42 @@
+{
+  "_v": 2,
+  "name": "One-Two Punch",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Moxie Points",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "attack",
+          "hit": [
+            {
+              "type": "damage",
+              "damage": "<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>+{strengthMod} [bludgeoning]"
+            }
+          ],
+          "miss": [],
+          "attackBonus": "{strengthMod}+{proficiencyBonus}"
+        },
+        {
+          "type": "attack",
+          "hit": [
+            {
+              "type": "damage",
+              "damage": "<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>+{strengthMod} [bludgeoning]"
+            }
+          ],
+          "miss": [],
+          "attackBonus": "{strengthMod}+{proficiencyBonus}"
+        }
+      ]
+    }
+  ],
+  "activation_type": 3,
+  "verb": "lands a one-two on",
+  "thumb": null
+}

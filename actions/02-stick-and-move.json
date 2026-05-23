@@ -1,0 +1,35 @@
+{
+  "_v": 2,
+  "name": "Stick and Move",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Moxie Points",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "attack",
+          "hit": [
+            {
+              "type": "damage",
+              "damage": "<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>+{strengthMod} [bludgeoning]"
+            }
+          ],
+          "miss": [],
+          "attackBonus": "{strengthMod}+{proficiencyBonus}"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "Then take the **Dash** or **Disengage** action as part of this Bonus Action."
+    }
+  ],
+  "activation_type": 3,
+  "verb": "sticks and moves on",
+  "thumb": null
+}

@@ -1,0 +1,33 @@
+{
+  "_v": 2,
+  "name": "Dig Deep",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Dig Deep",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Dig Deep",
+          "duration": 100,
+          "effects": {
+            "resistances": ["bludgeoning", "piercing", "slashing"]
+          },
+          "desc": "Resistance to Bludgeoning, Piercing, and Slashing. Ignore the effects of Exhaustion levels below 6. 10 minutes."
+        },
+        {
+          "type": "text",
+          "text": "Recharges on a Long Rest. You may instead gain 1 level of Exhaustion (no action required) to restore this use immediately — just run `!cc reset \"Dig Deep\"` and apply the exhaustion."
+        }
+      ]
+    }
+  ],
+  "activation_type": 3,
+  "verb": "digs deep,",
+  "thumb": null
+}
