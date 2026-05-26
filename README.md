@@ -40,6 +40,23 @@ character's action list.
 See [`actions/setup.md`](actions/setup.md) for the counters and cvars these
 actions expect.
 
+## Wizard — Occultist
+
+Subclass actions for the Occultist Wizard (homebrew).
+
+| Level | Feature | File | Activation |
+| ----- | ------- | ---- | ---------- |
+| 3 | Forbidden Knowledge | *passive — learn a language, always have a chosen Warlock 1st-level spell prepared* | — |
+| 3 | Intrusion | `actions/wiz-03-occultist-intrusion.json` | No Action |
+
+### Intrusion notes
+
+- The Intrusion Die size is tracked by a single counter — **Intrusion Step** — whose value indexes the progression `[d2, d3, d4, d6, d8, d10, d12]` (step 1 = d2, step 7 = d12).
+- The counter's max is the **starting size** for the character's Wizard level: step 4 (d6) at L3–4, step 5 (d8) at L5–10, step 6 (d10) at L11–16, step 7 (d12) at L17+. Raise the max manually when you level up.
+- On a non-Intrusion result (2+), the action decrements the counter (die shrinks). On a 1, it increments the counter (die grows, capped at max) and rolls on the Intrusion Table.
+- **Long Rest** resets the counter to max automatically. **Short Rest:** the die grows one step (run `!cc "Intrusion Step" -1`).
+- Damage rolls in table entries 3, 5, and 8 use the Intrusion Die *at its starting size*, computed from the counter's max.
+
 ### Design notes
 
 - The **Fisticuffs die** is computed from `levels.pugilist` inline so it scales
