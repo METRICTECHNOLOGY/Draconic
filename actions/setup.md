@@ -33,6 +33,20 @@ so no cvar is required. If you'd rather hardcode it, set:
 
 …and replace `<<('2d6' if levels.pugilist >= 17 else '1d12' if levels.pugilist >= 11 else '1d10' if levels.pugilist >= 5 else '1d8')>>` with `<fdie>` inside each action.
 
+## Occultist Wizard Counter
+
+For the Intrusion action, create one counter. Set `-max` to the starting Intrusion Die step for the character's Wizard level: **4** at L3–4 (d6), **5** at L5–10 (d8), **6** at L11–16 (d10), **7** at L17+ (d12).
+
+```
+!cc create "Intrusion Step" -reset long -max <starting step> -min 1 -title "Intrusion Die" -desc "Step on progression d2,d3,d4,d6,d8,d10,d12. 1=d2 … 7=d12. Max = starting size."
+```
+
+Raise `-max` manually when the starting size grows. On a Short Rest the die grows one step:
+
+```
+!cc "Intrusion Step" -1
+```
+
 ## Importing
 
 For each `.json` file in this folder, run `!a import <gist url>` or paste it
