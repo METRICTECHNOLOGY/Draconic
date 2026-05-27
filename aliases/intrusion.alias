@@ -14,59 +14,61 @@ color = "6a0dad"
 if mode in ["setup", "lr", "reset"]:
     if ch.cc_exists(cc):
         ch.delete_cc(cc)
-    ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start), desc="Progression d2,d3,d4,d6,d8,d10,d12. Current step = die size. Max = starting size.")
-    title = ch.name + " — Intrusion Die reset"
-    desc = "Intrusion Die set to its starting size **" + startdie + "** (Wizard level " + str(wl) + ").\\nResets here on a Long Rest. After a Short Rest the die grows one step — run `!intrusion sr`."
+    ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start))
+    title = ch.name + " - Intrusion Die reset"
+    desc = "Intrusion Die set to its starting size **" + startdie + "** (Wizard level " + str(wl) + ").\\nResets here on a Long Rest. After a Short Rest the die grows one step - run `!intrusion sr`."
+elif mode == "sr":
+    if not ch.cc_exists(cc):
+        ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start))
+    cur = ch.get_cc(cc)
+    ch.mod_cc(cc, 1)
+    new = ch.get_cc(cc)
+    title = ch.name + " - Short Rest"
+    if new > cur:
+        desc = "The Intrusion Die grows one step to **" + steps[new - 1] + "** (was " + steps[cur - 1] + ")."
+    else:
+        desc = "The Intrusion Die is already at its starting size **" + steps[cur - 1] + "**."
 else:
     if not ch.cc_exists(cc):
-        ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start), desc="Progression d2,d3,d4,d6,d8,d10,d12. Current step = die size. Max = starting size.")
+        ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start))
     cur = ch.get_cc(cc)
-    mx = ch.get_cc_max(cc)
-    if mode == "sr":
+    curdie = steps[cur - 1]
+    rolled = roll("1" + curdie)
+    lines = ["Intrusion Die (**" + curdie + "**) rolled **" + str(rolled) + "**."]
+    if rolled >= 2:
+        ch.mod_cc(cc, -1)
+        new = ch.get_cc(cc)
+        title = ch.name + " holds the veil"
+        if new < cur:
+            lines.append("**No Intrusion.** The die shrinks one step to **" + steps[new - 1] + "**.")
+        else:
+            lines.append("**No Intrusion.** The die is already at **d2** and cannot shrink further.")
+    else:
         ch.mod_cc(cc, 1)
         new = ch.get_cc(cc)
-        title = ch.name + " — Short Rest"
+        title = ch.name + " - INTRUSION!"
         if new > cur:
-            desc = "The Intrusion Die grows one step to **" + steps[new - 1] + "** (was " + steps[cur - 1] + ")."
+            lines.append("**Intrusion!** The die grows one step to **" + steps[new - 1] + "**.")
         else:
-            desc = "The Intrusion Die is already at its starting size **" + steps[cur - 1] + "**."
-    else:
-        curdie = steps[cur - 1]
-        rolled = roll("1" + curdie)
-        lines = ["Intrusion Die (**" + curdie + "**) rolled **" + str(rolled) + "**."]
-        if rolled >= 2:
-            ch.mod_cc(cc, -1)
-            new = ch.get_cc(cc)
-            title = ch.name + " holds the veil"
-            if new < cur:
-                lines.append("**No Intrusion.** The die shrinks one step to **" + steps[new - 1] + "**.")
-            else:
-                lines.append("**No Intrusion.** The die is already at **d2** and cannot shrink further.")
-        else:
-            ch.mod_cc(cc, 1)
-            new = ch.get_cc(cc)
-            title = ch.name + " — INTRUSION!"
-            if new > cur:
-                lines.append("**Intrusion!** The die grows one step to **" + steps[new - 1] + "**.")
-            else:
-                lines.append("**Intrusion!** The die is already at its starting size **" + curdie + "**.")
-            t = roll("1d12")
-            table = {
-                1: "**Whispers from Behind.** Until the end of your next turn you can take only ONE of these on a turn: an Action, a Bonus Action, or move.",
-                2: "**Twisting Space.** A 30-ft Emanation forms around you; each creature in it (including you) has its Speed halved until the end of your next turn.",
-                3: "**Necrotic Drain.** The nearest other creature within 60 ft makes a CON save (DC " + dcs + ") or takes Necrotic equal to two rolls of " + startdie + "; you regain HP equal to the damage dealt.",
-                4: "**Reality Tear.** Until the end of your next turn, you and each creature that can see the tear must succeed on a WIS save (DC " + dcs + ") or be Frightened while it exists.",
-                5: "**Alien Appendage.** For 1 minute you can make Unarmed Strikes with your spell attack bonus, dealing Acid equal to " + pb + " rolls of " + startdie + ".",
-                6: "**Alien Vision.** You have the Blinded condition until the end of your next turn.",
-                7: "**Unnatural Thoughts.** You have the Incapacitated condition until the end of your next turn.",
-                8: "**Terrible Clarity.** Take Psychic equal to two rolls of " + startdie + "; for 1 minute your spell save DC increases by 2.",
-                9: "**Forbidden Recharge.** Regain one expended spell slot of level 5 or lower (your choice); take Necrotic equal to twice the slot level (cannot be reduced or prevented).",
-                10: "**Prone Pulses.** Now and at the end of each of your turns for 1 minute, a 15-ft Emanation knocks you and each creature in it Prone.",
-                11: "**Hateful Whispers.** For 1 hour, while you can hear them you have Disadvantage on WIS ability checks and saving throws.",
-                12: "**Summon.** An Aberration or Fiend of CR " + str(wl) + " or lower (GM choice) appears in an unoccupied space within 30 ft; the GM sets its attitude and actions."
-            }
-            lines.append("__**Intrusion Table (d12 = " + str(t) + ")**__\\n" + table[t])
-        lines.append("*Spell modifiers (declare before casting):* **Overwhelming Mind** — foes have Disadvantage on the first save against the spell. **Seeking Eye** — Advantage on the first attack roll for the spell.")
-        desc = "\\n".join(lines)
+            lines.append("**Intrusion!** The die is already at its starting size **" + curdie + "**.")
+        t = roll("1d12")
+        table = {
+            1: "**Whispers from Behind.** Until the end of your next turn you can take only ONE of these on a turn: an Action, a Bonus Action, or move.",
+            2: "**Twisting Space.** A 30-ft Emanation forms around you; each creature in it (including you) has its Speed halved until the end of your next turn.",
+            3: "**Necrotic Drain.** The nearest other creature within 60 ft makes a CON save (DC " + dcs + ") or takes Necrotic equal to two rolls of " + startdie + "; you regain HP equal to the damage dealt.",
+            4: "**Reality Tear.** Until the end of your next turn, you and each creature that can see the tear must succeed on a WIS save (DC " + dcs + ") or be Frightened while it exists.",
+            5: "**Alien Appendage.** For 1 minute you can make Unarmed Strikes with your spell attack bonus, dealing Acid equal to " + pb + " rolls of " + startdie + ".",
+            6: "**Alien Vision.** You have the Blinded condition until the end of your next turn.",
+            7: "**Unnatural Thoughts.** You have the Incapacitated condition until the end of your next turn.",
+            8: "**Terrible Clarity.** Take Psychic equal to two rolls of " + startdie + "; for 1 minute your spell save DC increases by 2.",
+            9: "**Forbidden Recharge.** Regain one expended spell slot of level 5 or lower (your choice); take Necrotic equal to twice the slot level (cannot be reduced or prevented).",
+            10: "**Prone Pulses.** Now and at the end of each of your turns for 1 minute, a 15-ft Emanation knocks you and each creature in it Prone.",
+            11: "**Hateful Whispers.** For 1 hour, while you can hear them you have Disadvantage on WIS ability checks and saving throws.",
+            12: "**Summon.** An Aberration or Fiend of CR " + str(wl) + " or lower (GM choice) appears in an unoccupied space within 30 ft; the GM sets its attitude and actions."
+        }
+        lines.append("__**Intrusion Table (d12 = " + str(t) + ")**__\\n" + table[t])
+    lines.append("*Spell modifiers (declare before casting):* **Overwhelming Mind** - foes have Disadvantage on the first save against the spell. **Seeking Eye** - Advantage on the first attack roll for the spell.")
+    desc = "\\n".join(lines)
+
+return 'embed -title "' + title + '" -desc "' + desc + '" -color ' + color
 </drac2>
-embed -title "{{title}}" -desc "{{desc}}" -color {{color}}

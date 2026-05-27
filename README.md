@@ -58,6 +58,10 @@ Paste the contents of `aliases/intrusion.alias` into the Avrae dashboard
 (My Aliases → New Alias, name it `intrusion`) or run
 `!alias intrusion <code>` in Discord.
 
+It needs an **active character** (`!char <name>`) and the **Embed Links**
+permission for Avrae in the channel — without that permission the command
+runs but no embed appears. Run `!intrusion setup` once first.
+
 ### Using it
 
 | Command | Effect |
