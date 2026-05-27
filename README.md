@@ -42,20 +42,42 @@ actions expect.
 
 ## Wizard — Occultist
 
-Subclass actions for the Occultist Wizard (homebrew).
+Subclass features for the Occultist Wizard (homebrew). Unlike the Pugilist
+features, **Intrusion** is delivered as an Avrae **alias** (a `!intrusion`
+command) rather than an imported action — see
+[`aliases/intrusion.alias`](aliases/intrusion.alias).
 
-| Level | Feature | File | Activation |
-| ----- | ------- | ---- | ---------- |
-| 3 | Forbidden Knowledge | *passive — learn a language, always have a chosen Warlock 1st-level spell prepared* | — |
-| 3 | Intrusion | `actions/wiz-03-occultist-intrusion.json` | No Action |
+| Level | Feature | Alias | Notes |
+| ----- | ------- | ----- | ----- |
+| 3 | Forbidden Knowledge | — | *passive — learn a language, always have a chosen Warlock 1st-level spell prepared* |
+| 3 | Intrusion | `aliases/intrusion.alias` | `!intrusion` |
+
+### Installing the alias
+
+Paste the contents of `aliases/intrusion.alias` into the Avrae dashboard
+(My Aliases → New Alias, name it `intrusion`) or run
+`!alias intrusion <code>` in Discord.
+
+### Using it
+
+| Command | Effect |
+| ------- | ------ |
+| `!intrusion` | Risk an Intrusion: roll the current Intrusion Die. On 2+ the die shrinks one step; on a 1 the die grows one step (capped at starting size) and you roll on the Intrusion Table. |
+| `!intrusion sr` | After a **Short Rest** — the die grows one step (up to its starting size). |
+| `!intrusion setup` (or `lr`) | Create/reset the tracker to the starting size for your current Wizard level. Run once after install, and again whenever you level up so the max keeps pace. |
 
 ### Intrusion notes
 
-- The Intrusion Die size is tracked by a single counter — **Intrusion Step** — whose value indexes the progression `[d2, d3, d4, d6, d8, d10, d12]` (step 1 = d2, step 7 = d12).
-- The counter's max is the **starting size** for the character's Wizard level: step 4 (d6) at L3–4, step 5 (d8) at L5–10, step 6 (d10) at L11–16, step 7 (d12) at L17+. Raise the max manually when you level up.
-- On a non-Intrusion result (2+), the action decrements the counter (die shrinks). On a 1, it increments the counter (die grows, capped at max) and rolls on the Intrusion Table.
-- **Long Rest** resets the counter to max automatically. **Short Rest:** the die grows one step (run `!cc "Intrusion Step" -1`).
-- Damage rolls in table entries 3, 5, and 8 use the Intrusion Die *at its starting size*, computed from the counter's max.
+- The die size is tracked by a self-managed counter, **Intrusion Step**, whose
+  value indexes the progression `[d2, d3, d4, d6, d8, d10, d12]` (step 1 = d2,
+  step 7 = d12). The alias creates it on first use.
+- The counter's max is the **starting size** for the character's Wizard level:
+  d6 at L3–4, d8 at L5–10, d10 at L11–16, d12 at L17+ (read from
+  `levels.get("Wizard")`).
+- **Long Rest** resets the counter to its starting size automatically
+  (`reset="long"`). **Short Rest:** run `!intrusion sr` to grow the die one step.
+- Damage references in table entries 3, 5, and 8 use the Intrusion Die *at its
+  starting size*; entries needing a save quote your spell save DC from the sheet.
 
 ### Design notes
 
