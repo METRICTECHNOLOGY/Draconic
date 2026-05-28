@@ -16,7 +16,7 @@ if mode in ["setup", "lr", "reset"]:
         ch.delete_cc(cc)
     ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start))
     title = ch.name + " - Intrusion Die reset"
-    desc = "Intrusion Die set to its starting size **" + startdie + "** (Wizard level " + str(wl) + ").\\nResets here on a Long Rest. After a Short Rest the die grows one step - run `!intrusion sr`."
+    desc = "Intrusion Die set to its starting size **" + startdie + "** (Wizard level " + str(wl) + ").\nResets here on a Long Rest. After a Short Rest the die grows one step - run `!intrusion sr`."
 elif mode == "sr":
     if not ch.cc_exists(cc):
         ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start))
@@ -66,9 +66,9 @@ else:
             11: "**Hateful Whispers.** For 1 hour, while you can hear them you have Disadvantage on WIS ability checks and saving throws.",
             12: "**Summon.** An Aberration or Fiend of CR " + str(wl) + " or lower (GM choice) appears in an unoccupied space within 30 ft; the GM sets its attitude and actions."
         }
-        lines.append("__**Intrusion Table (d12 = " + str(t) + ")**__\\n" + table[t])
+        lines.append("__**Intrusion Table (d12 = " + str(t) + ")**__\n" + table[t])
     lines.append("*Spell modifiers (declare before casting):* **Overwhelming Mind** - foes have Disadvantage on the first save against the spell. **Seeking Eye** - Advantage on the first attack roll for the spell.")
-    desc = "\\n".join(lines)
+    desc = "\n".join(lines)
 
 return 'embed -title "' + title + '" -desc "' + desc + '" -color ' + color
 </drac2>
