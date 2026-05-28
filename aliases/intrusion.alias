@@ -33,8 +33,9 @@ else:
         ch.create_cc(cc, minVal="1", maxVal=str(start), reset="long", title="Intrusion Die", initial_value=str(start))
     cur = ch.get_cc(cc)
     curdie = steps[cur - 1]
-    rolled = roll("1" + curdie)
-    lines = ["Intrusion Die (**" + curdie + "**) rolled **" + str(rolled) + "**."]
+    r = vroll("1" + curdie)
+    rolled = r.total
+    lines = ["Intrusion Die (**" + curdie + "**): " + r.full]
     if rolled >= 2:
         ch.mod_cc(cc, -1)
         new = ch.get_cc(cc)
@@ -51,7 +52,8 @@ else:
             lines.append("**Intrusion!** The die grows one step to **" + steps[new - 1] + "**.")
         else:
             lines.append("**Intrusion!** The die is already at its starting size **" + curdie + "**.")
-        t = roll("1d12")
+        tr = vroll("1d12")
+        t = tr.total
         table = {
             1: "**Whispers from Behind.** Until the end of your next turn you can take only ONE of these on a turn: an Action, a Bonus Action, or move.",
             2: "**Twisting Space.** A 30-ft Emanation forms around you; each creature in it (including you) has its Speed halved until the end of your next turn.",
@@ -66,7 +68,7 @@ else:
             11: "**Hateful Whispers.** For 1 hour, while you can hear them you have Disadvantage on WIS ability checks and saving throws.",
             12: "**Summon.** An Aberration or Fiend of CR " + str(wl) + " or lower (GM choice) appears in an unoccupied space within 30 ft; the GM sets its attitude and actions."
         }
-        lines.append("__**Intrusion Table (d12 = " + str(t) + ")**__\n" + table[t])
+        lines.append("__**Intrusion Table**__ " + tr.full + "\n" + table[t])
     lines.append("*Spell modifiers (declare before casting):* **Overwhelming Mind** - foes have Disadvantage on the first save against the spell. **Seeking Eye** - Advantage on the first attack roll for the spell.")
     desc = "\n".join(lines)
 
