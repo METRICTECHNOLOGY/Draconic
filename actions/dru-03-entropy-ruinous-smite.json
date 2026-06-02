@@ -3,6 +3,13 @@
   "name": "Ruinous Smite",
   "automation": [
     {
+      "type": "counter",
+      "counter": {
+        "slot": "get_cc('Slot Level')"
+      },
+      "amount": "1"
+    },
+    {
       "type": "target",
       "target": "each",
       "effects": [
@@ -18,7 +25,7 @@
       "effects": [
         {
           "type": "text",
-          "text": "**Once per turn**, after you hit with a weapon or Unarmed Strike, **expend a spell slot** (deduct it manually) to deal the extra damage above: **1d8 + 1d8 per slot level** of Necrotic. Set the **Slot Level** counter to the slot's level first (e.g. `!cc \"Slot Level\" =3`)."
+          "text": "**Once per turn**, after you hit with a weapon or Unarmed Strike, this **expends a spell slot** of the level set in your **Slot Level** counter (deducted from your spellbook automatically) to deal the extra damage above: **1d8 + 1d8 per slot level** of Necrotic. Set **Slot Level** to the slot you're spending first (e.g. `!cc \"Slot Level\" =3`)."
         },
         {
           "type": "condition",

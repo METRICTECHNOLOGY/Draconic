@@ -3,6 +3,13 @@
   "name": "Elemental Cataclysm",
   "automation": [
     {
+      "type": "counter",
+      "counter": {
+        "slot": "get_cc('Slot Level')"
+      },
+      "amount": "1"
+    },
+    {
       "type": "roll",
       "dice": "<<get_cc('Slot Level')>>d6[fire]",
       "name": "cataclysm",
@@ -46,7 +53,7 @@
     },
     {
       "type": "text",
-      "text": "**Expend a spell slot** to cast this (Avrae doesn't track slots — deduct it manually). Set the **Slot Level** counter to the slot's level first (e.g. `!cc \"Slot Level\" =3`); damage is **1d6 per slot level**. Choose a type (Acid/Cold/Fire/Lightning) and edit `[fire]` in the roll and the Vulnerability type to match. 10-ft-radius Sphere within 60 ft of you."
+      "text": "This **expends a spell slot** of the level set in your **Slot Level** counter — the action deducts the real slot from your spellbook (if you have none of that level, Avrae warns and continues). Set it first (e.g. `!cc \"Slot Level\" =3`); damage is **1d6 per slot level**. Choose a type (Acid/Cold/Fire/Lightning) and edit `[fire]` in the roll and the Vulnerability type to match. 10-ft-radius Sphere within 60 ft of you."
     }
   ],
   "activation_type": 1,

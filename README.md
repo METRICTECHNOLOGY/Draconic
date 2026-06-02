@@ -93,11 +93,11 @@ Earth`, and `Slot Level` counters these actions expect.
 
 ### Design notes
 
-- **Slot scaling**: Elemental Cataclysm (`Slot Level`d6) and Ruinous Smite
-  (`Slot Level + 1`d8) read a scratch **Slot Level** counter set to the expended
-  slot's level before use — the same counter-indexing idea as the Occultist's
-  Intrusion Step. Spending the slot itself is a text reminder (Avrae doesn't track
-  slots for actions).
+- **Slot scaling**: set the **Slot Level** counter to the slot you're spending;
+  the action then consumes a real spell slot of that level via the `counter`
+  node's spell-slot reference (`{"slot": ...}`) and scales the dice (Elemental
+  Cataclysm `Slot Level`d6, Ruinous Smite `Slot Level + 1`d8). The counter only
+  *selects* the level — the slots themselves are tracked by Avrae's spellbook.
 - **Spell save DC** is computed inline as `8 + proficiencyBonus + wisdomMod`.
 - **Ruin Incarnate** is a 10-minute `ieffect2` that sets base AC to
   `17 + max(1, wisdomMod)` via `ac_value`; the description notes it only applies
