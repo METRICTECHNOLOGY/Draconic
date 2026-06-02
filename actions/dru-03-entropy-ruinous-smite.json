@@ -1,0 +1,41 @@
+{
+  "_v": 2,
+  "name": "Ruinous Smite",
+  "automation": [
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "damage",
+          "damage": "<<get_cc('Slot Level') + 1>>d8[necrotic]"
+        }
+      ]
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "text",
+          "text": "**Once per turn**, after you hit with a weapon or Unarmed Strike, **expend a spell slot** (deduct it manually) to deal the extra damage above: **1d8 + 1d8 per slot level** of Necrotic. Set the **Slot Level** counter to the slot's level first (e.g. `!cc \"Slot Level\" =3`)."
+        },
+        {
+          "type": "condition",
+          "condition": "levels.druid >= 14",
+          "onTrue": [
+            {
+              "type": "text",
+              "text": "**Enhanced Ruinous Smite** (L14+): until the end of your next turn, attack the smitten creature with `-criton 19` so it suffers a Critical Hit on a 19-20 (or set it persistently with `!csettings criton 19`, reverting to `20` afterward)."
+            }
+          ],
+          "onFalse": [],
+          "errorBehaviour": "false"
+        }
+      ]
+    }
+  ],
+  "activation_type": 6,
+  "verb": "smites",
+  "thumb": null
+}

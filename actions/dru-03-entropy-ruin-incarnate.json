@@ -1,0 +1,57 @@
+{
+  "_v": 2,
+  "name": "Ruin Incarnate",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Wild Shape",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Ruin Incarnate",
+          "duration": 100,
+          "effects": {
+            "ac_value": "17 + max(1, wisdomMod)"
+          },
+          "desc": "Base AC becomes 17 + Wis mod (min +1) — ONLY if that is higher than your current AC; if your AC is already higher, end or edit out this effect. You also have Advantage on attacks against Bloodied creatures (apply with -adv). 10 minutes."
+        },
+        {
+          "type": "text",
+          "text": "While active: **Inexorable Onslaught** — attack **twice** when you take the Attack action. **All Things Pass** — Advantage on attack rolls against Bloodied creatures (apply `-adv` when the target is at half HP or less)."
+        },
+        {
+          "type": "condition",
+          "condition": "levels.druid >= 6",
+          "onTrue": [
+            {
+              "type": "text",
+              "text": "**Many Roads to Ruin** (L6+): **Elemental Assault** — on a weapon/Unarmed hit you may change its damage type to Acid/Cold/Fire/Lightning/Necrotic (edit the attack's `[type]`). **Increased Might** — add +<<max(1, wisdomMod)>> to your Strength and Dexterity saving throws (apply `-b <<max(1, wisdomMod)>>` on `!s str` / `!s dex`)."
+            }
+          ],
+          "onFalse": [],
+          "errorBehaviour": "false"
+        },
+        {
+          "type": "condition",
+          "condition": "levels.druid >= 14",
+          "onTrue": [
+            {
+              "type": "text",
+              "text": "**Improved Inexorable Onslaught** (L14+): you may attack **three times** instead of twice when you take the Attack action."
+            }
+          ],
+          "onFalse": [],
+          "errorBehaviour": "false"
+        }
+      ]
+    }
+  ],
+  "activation_type": 3,
+  "verb": "becomes ruin incarnate,",
+  "thumb": null
+}

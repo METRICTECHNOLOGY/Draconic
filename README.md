@@ -70,3 +70,40 @@ Subclass actions for the Occultist Wizard (homebrew).
 - Effects that affect the world outside Avrae's tracking (Exhaustion, condition
   removal, Dash/Disengage, picking damage type) are emitted as text reminders
   rather than mechanical automation.
+
+## Druid — Circle of Entropy
+
+Subclass actions for the Circle of Entropy Druid (homebrew) — fatalistic Druids
+who act as agents of ruin, hastening the inevitable end of all things.
+
+| Level | Feature | File | Activation |
+| ----- | ------- | ---- | ---------- |
+| 3 | Catastrophic Power — Elemental Cataclysm | `actions/dru-03-entropy-elemental-cataclysm.json` | Action |
+| 3 | Catastrophic Power — Ruinous Smite | `actions/dru-03-entropy-ruinous-smite.json` | No Action |
+| 3 | Catastrophic Power — Weapon Mastery | *passive* — use one weapon kind's mastery property | — |
+| 3 | Ruin Incarnate | `actions/dru-03-entropy-ruin-incarnate.json` | Bonus Action |
+| 6 | Many Roads to Ruin | folded into `dru-03-entropy-ruin-incarnate.json` (L6+ text) | — |
+| 10 | Shake the Earth | `actions/dru-10-entropy-shake-the-earth.json` | Action |
+| 14 | Entropy's Apex — Enhanced Ruinous Smite | folded into `dru-03-entropy-ruinous-smite.json` (L14+ text) | — |
+| 14 | Entropy's Apex — Improved Inexorable Onslaught | folded into `dru-03-entropy-ruin-incarnate.json` (L14+ text) | — |
+| 14 | Entropy's Apex — World Breaker | *recharge note* — Shake the Earth also resets on a Short Rest | — |
+
+See [`actions/setup.md`](actions/setup.md) for the `Wild Shape`, `Shake the
+Earth`, and `Slot Level` counters these actions expect.
+
+### Design notes
+
+- **Slot scaling**: Elemental Cataclysm (`Slot Level`d6) and Ruinous Smite
+  (`Slot Level + 1`d8) read a scratch **Slot Level** counter set to the expended
+  slot's level before use — the same counter-indexing idea as the Occultist's
+  Intrusion Step. Spending the slot itself is a text reminder (Avrae doesn't track
+  slots for actions).
+- **Spell save DC** is computed inline as `8 + proficiencyBonus + wisdomMod`.
+- **Ruin Incarnate** is a 10-minute `ieffect2` that sets base AC to
+  `17 + max(1, wisdomMod)` via `ac_value`; the description notes it only applies
+  if higher than your current AC, since Avrae can't read live AC to guard it.
+- **Vulnerability** (Elemental Cataclysm) uses the native `vulnerabilities` effect.
+- Things Avrae can't apply per-attack or per-condition are reminders that point at
+  real mechanisms: Advantage vs Bloodied → `-adv`, Increased Might → `-b`, Enhanced
+  Ruinous Smite crit range → `-criton 19` / `!csettings criton 19`. Size change and
+  the Prone condition are plain text reminders.

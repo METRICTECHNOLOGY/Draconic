@@ -1,0 +1,62 @@
+{
+  "_v": 2,
+  "name": "Shake the Earth",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Shake the Earth",
+      "amount": "1"
+    },
+    {
+      "type": "roll",
+      "dice": "<<levels.druid>>d10[bludgeoning]",
+      "name": "tremor",
+      "displayName": "Tremor — structure damage (<<levels.druid>>d10)"
+    },
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "dex",
+          "fail": [
+            {
+              "type": "text",
+              "text": "Failed — the creature has the **Prone** condition (apply it manually)."
+            }
+          ],
+          "success": [
+            {
+              "type": "text",
+              "text": "Saved — not knocked Prone."
+            }
+          ],
+          "dc": "8 + proficiencyBonus + wisdomMod"
+        }
+      ]
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Shake the Earth",
+          "duration": 100,
+          "effects": {
+            "damage_bonus": "1d4"
+          },
+          "desc": "Your size increases by one category (e.g. Medium to Large) — apply manually. While enlarged, your weapon and Unarmed Strike hits deal +1d4 damage. 10 minutes."
+        },
+        {
+          "type": "text",
+          "text": "The tremor above (<<levels.druid>>d10 Bludgeoning) hits each structure in contact with the ground in a 30-ft Emanation; each creature in the area makes the Dex save above or is knocked Prone. **Recharges on a Long Rest.** At L14 (World Breaker) it also recharges on a Short Rest — recreate the counter with `-reset short`."
+        }
+      ]
+    }
+  ],
+  "activation_type": 1,
+  "verb": "shakes the earth,",
+  "thumb": null
+}

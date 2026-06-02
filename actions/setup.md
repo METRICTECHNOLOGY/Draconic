@@ -47,6 +47,29 @@ Raise `-max` manually when the starting size grows. On a Short Rest the die grow
 !cc "Intrusion Step" -1
 ```
 
+## Druid — Circle of Entropy Counters
+
+For the Circle of Entropy actions, create these counters. `<wild shape max>` is
+your Wild Shape uses (2 at L2, 3 at L6, 4 at L17).
+
+```
+!cc create "Wild Shape" -reset short -max <wild shape max> -title "Wild Shape" -desc "Druid Wild Shape uses. Ruin Incarnate spends one."
+!cc create "Shake the Earth" -reset long -max 1 -title "Shake the Earth" -desc "1/Long Rest. At L14 (World Breaker) recreate with -reset short to also recharge on a Short Rest."
+!cc create "Slot Level" -min 1 -max 9 -title "Slot Level" -desc "Scratch value: the level of the spell slot you expend for Elemental Cataclysm / Ruinous Smite."
+```
+
+Before using **Elemental Cataclysm** or **Ruinous Smite**, set **Slot Level** to
+the slot you're spending — the `=` sets an absolute value, e.g. for a 3rd-level
+slot:
+
+```
+!cc "Slot Level" =3
+```
+
+Elemental Cataclysm then deals `Slot Level`d6; Ruinous Smite deals
+`(Slot Level + 1)`d8. If your character already has a **Wild Shape** counter,
+reuse it rather than creating a second one.
+
 ## Importing
 
 For each `.json` file in this folder, run `!a import <gist url>` or paste it
