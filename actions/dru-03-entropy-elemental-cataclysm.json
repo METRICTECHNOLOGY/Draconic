@@ -1,0 +1,62 @@
+{
+  "_v": 2,
+  "name": "Elemental Cataclysm",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": {
+        "slot": "get_cc('Slot Level')"
+      },
+      "amount": "1"
+    },
+    {
+      "type": "roll",
+      "dice": "<<get_cc('Slot Level')>>d6[fire]",
+      "name": "cataclysm",
+      "displayName": "Cataclysm (<<get_cc('Slot Level')>>d6 — 1d6 per slot level)"
+    },
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "dex",
+          "fail": [
+            {
+              "type": "damage",
+              "damage": "{cataclysm}"
+            },
+            {
+              "type": "ieffect2",
+              "name": "Elemental Cataclysm — Vulnerability",
+              "duration": 10,
+              "effects": {
+                "vulnerabilities": ["fire"]
+              },
+              "desc": "Vulnerability to the chosen damage type (Acid/Cold/Fire/Lightning — edit to match your cast). The target repeats the Dex save at the end of each of its turns, ending this effect on a success. 1 minute."
+            }
+          ],
+          "success": [
+            {
+              "type": "damage",
+              "damage": "({cataclysm})/2"
+            },
+            {
+              "type": "text",
+              "text": "Save succeeded — half damage, no Vulnerability."
+            }
+          ],
+          "dc": "8 + proficiencyBonus + wisdomMod"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "This **expends a spell slot** of the level set in your **Slot Level** counter — the action deducts the real slot from your spellbook (if you have none of that level, Avrae warns and continues). Set it first (e.g. `!cc \"Slot Level\" =3`); damage is **1d6 per slot level**. Choose a type (Acid/Cold/Fire/Lightning) and edit `[fire]` in the roll and the Vulnerability type to match. 10-ft-radius Sphere within 60 ft of you."
+    }
+  ],
+  "activation_type": 1,
+  "verb": "unleashes a cataclysm,",
+  "thumb": null
+}
