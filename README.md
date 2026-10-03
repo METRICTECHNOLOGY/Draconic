@@ -3,6 +3,97 @@
 Aliases and character actions for D&D on Discord, written in Avrae's Draconic
 automation language.
 
+## Server aliases
+
+Draconic aliases in `aliases/`. Each file is the alias body as the
+[Avrae workshop](https://avrae.io/dashboard/workshop) editor takes it: create
+an alias with the command name, paste the file into its code box, and
+subscribe the server to the collection. To paste one into Discord instead,
+prefix the first line with `!servalias <name>` (server-wide) or
+`!alias <name>` (personal).
+
+| Command | File | Purpose |
+| ------- | ---- | ------- |
+| `!rp <hours>` | `aliases/rp.alias` | Grants XP and Special XP for a role-play session |
+| `!quest <hours>` | `aliases/quest.alias` | Grants XP and gold for a quest |
+
+Both aliases bank the XP through the [New XP](https://avrae.io/dashboard/workshop/618b77bd5c51fd18fe5356a0)
+workshop library (`xplib`, gvar `bd5e6af1-55e9-4c5b-b814-8f9b447091e7`),
+which stores a character's XP in the cvar `xp`, and add a line to its `!xp log`.
+
+### `!rp` rewards
+
+Rewards per hour, by level. Special XP is reported but not tracked anywhere.
+
+| Levels | XP / hour | Special XP / hour |
+| ------ | --------- | ----------------- |
+| 1–4 | 100 | 10 |
+| 5–8 | 250 | 25 |
+| 9–12 | 400 | 50 |
+| 13–16 | 500 | 100 |
+| 17–20 | 600 | 150 |
+| 21–25 | 800 | 200 |
+
+### `!quest` rewards
+
+Rewards per hour, by level. Gold is banked in Avrae's built-in coin purse,
+the one `!coins` shows (and syncs to a linked D&D Beyond sheet).
+
+| Levels | XP / hour | GP / hour |
+| ------ | --------- | --------- |
+| 1–2 | 100 | 50 |
+| 3–4 | 400 | 100 |
+| 5–8 | 500 | 150 |
+| 9–12 | 700 | 300 |
+| 13–16 | 1,000 | 500 |
+| 17–20 | 1,500 | 1,000 |
+| 21–25 | 2,000 | 1,500 |
+
+### How the level is worked out
+
+Character sheets stop at level 20, so each alias works the level out from
+tracked XP as well as the sheet and uses the **higher** of the two. Levels
+1–20 use the standard 5e XP table; levels 21–25 use the server's extension:
+
+| Level | XP |
+| ----- | -- |
+| 21 | 405,000 |
+| 22 | 465,000 |
+| 23 | 535,000 |
+| 24 | 615,000 |
+| 25 | 700,000 |
+
+A character past 700,000 XP keeps receiving the 21–25 tier. A character whose
+XP has never been tracked falls back to their sheet level, so nobody drops to
+the level 1 tier by accident.
+
+The level is checked once, before the reward is added. A session that pushes a
+character over a level threshold is paid entirely at the tier they started at,
+and the next `!rp` or `!quest` picks up the new tier.
+
+### Design notes
+
+- `XP_TOTALS` at the top of each alias is the level table; `RP_TIERS` and
+  `QUEST_TIERS` are the reward tables. Entries are
+  `(top level of the tier, XP per hour, Special XP or GP per hour)`; any level
+  above the last entry uses the last entry. Both aliases carry their own copy
+  of `XP_TOTALS`, so change it in both if the thresholds move.
+- To ignore the sheet level and go purely by XP, change
+  `max(ch.levels.total_level, xp_level, 1)` to `max(xp_level, 1)`.
+- `!quest` banks gold with `ch.coinpurse.modify_coins(gp=gp_gain)`. If the
+  server tracks gold with a different alias, delete that line (the embed still
+  reports the gold) or swap in that alias's library call.
+- The `!xp` command itself still reads its level cap from the server's
+  `xptotals` svar (default: levels 1–20). To have `!xp` announce level-ups
+  past 20 as well, a server admin can run:
+
+  ```
+  !svar xptotals 0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,405000,465000,535000,615000,700000
+  ```
+
+  This is optional; the aliases carry their own copy of the table and do not
+  need it.
+
 ## Pugilist
 
 Character actions covering the Pugilist class (homebrew). Each `.json` in

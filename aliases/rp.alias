@@ -1,0 +1,53 @@
+embed
+<drac2>
+# XP to reach each level (index 0 = level 1): standard 5e for 1-20, server table for 21-25.
+XP_TOTALS = [
+    0, 300, 900, 2700,                       # 1-4
+    6500, 14000, 23000, 34000,               # 5-8
+    48000, 64000, 85000, 100000,             # 9-12
+    120000, 140000, 165000, 195000,          # 13-16
+    225000, 265000, 305000, 355000,          # 17-20
+    405000, 465000, 535000, 615000, 700000,  # 21-25
+]
+# (top level of the tier, XP per hour, Special XP per hour)
+RP_TIERS = [
+    (4, 100, 10),
+    (8, 250, 25),
+    (12, 400, 50),
+    (16, 500, 100),
+    (20, 600, 150),
+    (25, 800, 200),
+]
+
+input_hours = '&1&'
+if not input_hours.replace('.', '', 1).isdigit():
+    return '''-title "RP Command Help"
+    -desc "Use the !rp command to calculate the rewards of a role-play."
+    -f "Usage|!rp {hours}"
+    -f "Hours|Replace {hours} with the number of hours the role-play lasted."'''
+rp_hours = float(input_hours) if '.' in input_hours else int(input_hours)
+
+using(xplib="bd5e6af1-55e9-4c5b-b814-8f9b447091e7")
+ch = character()
+
+# Level is locked in before the reward is added. Sheets cap at 20, so use the
+# higher of the sheet level and the level the tracked XP (cvar `xp`) works out to.
+current_xp = xplib.get_xp(ch)
+xp_level = len([t for t in XP_TOTALS if current_xp >= t])
+char_level = max(ch.levels.total_level, xp_level, 1)
+
+tier = ([t for t in RP_TIERS if char_level <= t[0]] or RP_TIERS[-1:])[0]
+xp_gain = round(tier[1] * rp_hours)
+sxp_gain = round(tier[2] * rp_hours)
+
+xplib.modify_xp(xp_gain, "RP reward of [value]")
+
+return f'''-title "{name} finishes a role-play!"
+-desc "After role-playing for **{rp_hours}** hours, you earned **{sxp_gain:,}** Special and **{xp_gain:,}** XP!"
+-f "XP Gained|{xp_gain:,} XP"
+-f "Special XP Gained|{sxp_gain:,} XP"
+-f "Reward Tier|Level {char_level}: {tier[1]} XP and {tier[2]} Special per hour"'''
+</drac2>
+-color <D1B000>
+-image https://i.pinimg.com/originals/08/31/79/08317907ff447cb9abbfb0707a48f9a5.jpg
+-footer "Made by Cultivation  || !rp <hours> || {{ctx.prefix}}{{ctx.alias}}"
