@@ -5,9 +5,12 @@ automation language.
 
 ## Server aliases
 
-Draconic aliases in `aliases/`. Each file is the full Discord command, so it
-can be pasted as-is. Paste it with `!servalias` instead of `!alias` to make it
-server-wide.
+Draconic aliases in `aliases/`. Each file is the alias body as the
+[Avrae workshop](https://avrae.io/dashboard/workshop) editor takes it: create
+an alias with the command name, paste the file into its code box, and
+subscribe the server to the collection. To paste one into Discord instead,
+prefix the first line with `!servalias <name>` (server-wide) or
+`!alias <name>` (personal).
 
 | Command | File | Purpose |
 | ------- | ---- | ------- |
@@ -68,9 +71,6 @@ and the next `!rp` picks up the new tier.
   ```
 
   This is optional; `!rp` carries its own copy of the table and does not need it.
-- The alias file is under Discord's 2,000-character message limit so it can
-  be pasted straight into a channel. If it grows past that, add it through the
-  [Avrae dashboard](https://avrae.io/dashboard/aliases) instead.
 
 ## Pugilist
 
