@@ -1,0 +1,56 @@
+embed
+<drac2>
+# XP to reach each level (index 0 = level 1): standard 5e for 1-20, server table for 21-25.
+XP_TOTALS = [
+    0, 300, 900, 2700,                       # 1-4
+    6500, 14000, 23000, 34000,               # 5-8
+    48000, 64000, 85000, 100000,             # 9-12
+    120000, 140000, 165000, 195000,          # 13-16
+    225000, 265000, 305000, 355000,          # 17-20
+    405000, 465000, 535000, 615000, 700000,  # 21-25
+]
+# (top level of the tier, XP per hour, GP per hour)
+QUEST_TIERS = [
+    (2, 100, 50),
+    (4, 400, 100),
+    (8, 500, 150),
+    (12, 700, 300),
+    (16, 1000, 500),
+    (20, 1500, 1000),
+    (25, 2000, 1500),
+]
+
+input_hours = '&1&'
+if not input_hours.replace('.', '', 1).isdigit():
+    return '''-title "Quest Command Help"
+    -desc "Use the !quest command to calculate the rewards of a quest."
+    -f "Usage|!quest {hours}"
+    -f "Hours|Replace {hours} with the number of hours the quest lasted."'''
+quest_hours = float(input_hours) if '.' in input_hours else int(input_hours)
+
+using(xplib="bd5e6af1-55e9-4c5b-b814-8f9b447091e7")
+ch = character()
+
+# Level is locked in before the reward is added. Sheets cap at 20, so use the
+# higher of the sheet level and the level the tracked XP (cvar `xp`) works out to.
+current_xp = xplib.get_xp(ch)
+xp_level = len([t for t in XP_TOTALS if current_xp >= t])
+char_level = max(ch.levels.total_level, xp_level, 1)
+
+tier = ([t for t in QUEST_TIERS if char_level <= t[0]] or QUEST_TIERS[-1:])[0]
+xp_gain = round(tier[1] * quest_hours)
+gp_gain = round(tier[2] * quest_hours)
+
+xplib.modify_xp(xp_gain, "Quest reward of [value]")
+# Banks the gold in Avrae's built-in coin purse (what !coins shows).
+# Delete this line if the server tracks gold some other way.
+ch.coinpurse.modify_coins(gp=gp_gain)
+
+return f'''-title "{name} completes a quest!"
+-desc "After questing for **{quest_hours}** hours, you earned **{xp_gain:,}** XP and **{gp_gain:,}** GP!"
+-f "XP Gained|{xp_gain:,} XP"
+-f "Gold Gained|{gp_gain:,} GP"
+-f "Reward Tier|Level {char_level}: {tier[1]} XP and {tier[2]} GP per hour"'''
+</drac2>
+-color <2E8B57>
+-footer "!quest <hours> || {{ctx.prefix}}{{ctx.alias}}"
