@@ -3,6 +3,75 @@
 Aliases and character actions for D&D on Discord, written in Avrae's Draconic
 automation language.
 
+## Server aliases
+
+Draconic aliases in `aliases/`. Each file is the full Discord command, so it
+can be pasted as-is. Paste it with `!servalias` instead of `!alias` to make it
+server-wide.
+
+| Command | File | Purpose |
+| ------- | ---- | ------- |
+| `!rp <hours>` | `aliases/rp.alias` | Grants XP and Special XP for a role-play session |
+
+### `!rp` rewards
+
+`!rp` banks the XP through the [New XP](https://avrae.io/dashboard/workshop/618b77bd5c51fd18fe5356a0)
+workshop library (`xplib`, gvar `bd5e6af1-55e9-4c5b-b814-8f9b447091e7`),
+which stores a character's XP in the cvar `xp`. Special XP is reported but
+not tracked anywhere.
+
+Rewards per hour, by level:
+
+| Levels | XP / hour | Special XP / hour |
+| ------ | --------- | ----------------- |
+| 1–4 | 100 | 10 |
+| 5–8 | 250 | 25 |
+| 9–12 | 400 | 50 |
+| 13–16 | 500 | 100 |
+| 17–20 | 600 | 150 |
+| 21–25 | 800 | 200 |
+
+Character sheets stop at level 20, so the alias works the level out from
+tracked XP as well as the sheet and uses the **higher** of the two. Levels
+1–20 use the standard 5e XP table; levels 21–25 use the server's extension:
+
+| Level | XP |
+| ----- | -- |
+| 21 | 405,000 |
+| 22 | 465,000 |
+| 23 | 535,000 |
+| 24 | 615,000 |
+| 25 | 700,000 |
+
+A character past 700,000 XP keeps receiving the 21–25 tier. A character whose
+XP has never been tracked falls back to their sheet level, so nobody drops to
+the level 1 tier by accident.
+
+The level is checked once, before the reward is added. A session that pushes a
+character over a level threshold is paid entirely at the tier they started at,
+and the next `!rp` picks up the new tier.
+
+### Design notes
+
+- `XP_TOTALS` and `RP_TIERS` at the top of the alias are the only two tables
+  to edit when the thresholds or rewards change. `RP_TIERS` entries are
+  `(top level of the tier, XP per hour, Special XP per hour)`; any level above
+  the last entry uses the last entry.
+- To ignore the sheet level and go purely by XP, change
+  `max(ch.levels.total_level, xp_level, 1)` to `max(xp_level, 1)`.
+- The `!xp` command itself still reads its level cap from the server's
+  `xptotals` svar (default: levels 1–20). To have `!xp` announce level-ups
+  past 20 as well, a server admin can run:
+
+  ```
+  !svar xptotals 0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000,405000,465000,535000,615000,700000
+  ```
+
+  This is optional; `!rp` carries its own copy of the table and does not need it.
+- The alias file is under Discord's 2,000-character message limit so it can
+  be pasted straight into a channel. If it grows past that, add it through the
+  [Avrae dashboard](https://avrae.io/dashboard/aliases) instead.
+
 ## Pugilist
 
 Character actions covering the Pugilist class (homebrew). Each `.json` in
