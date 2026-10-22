@@ -107,3 +107,37 @@ Earth`, and `Slot Level` counters these actions expect.
   real mechanisms: Advantage vs Bloodied → `-adv`, Increased Might → `-b`, Enhanced
   Ruinous Smite crit range → `-criton 19` / `!csettings criton 19`. Size change and
   the Prone condition are plain text reminders.
+
+## Druid — Void Circle
+
+Subclass actions for a Void-themed Druid (homebrew) whose Wild Shape and
+high-level power draw on the still, cold hush of the Void.
+
+| Level | Feature | File | Activation |
+| ----- | ------- | ---- | ---------- |
+| 2 | Entropic Shroud — Void-Touched Wild Shape / Entropic Strikes | `actions/dru-02-void-entropic-shroud.json` | Bonus Action |
+| 2 | Entropic Shroud — Baleful Presence | `actions/dru-02-void-baleful-presence.json` | No Action |
+| 14 | Collapse into Nothing — Singularity | `actions/dru-14-void-singularity.json` | Action |
+| 14 | Collapse into Nothing — Singularity start-of-turn save | `actions/dru-14-void-singularity-pulse.json` | No Action |
+| 14 | Collapse into Nothing — Entropic Collapse | folded into `dru-14-void-singularity-pulse.json` (text) | — |
+| 14 | Collapse into Nothing — Void's Mastery | folded into `dru-14-void-singularity.json` (resistances on the effect) | — |
+
+See [`actions/setup.md`](actions/setup.md) for the `Wild Shape` and
+`Singularity` counters these actions expect.
+
+### Design notes
+
+- **Entropic Shroud** spends a Wild Shape use and applies a self effect lasting
+  the Wild Shape duration (`levels.druid // 2` hours) with `damage_bonus:
+  1d4[necrotic]`. Change it to `[psychic]` to switch the type. Remove the effect
+  to revert to your normal appearance and keep the beast statistics.
+- **Baleful Presence** puts `Frightened (Baleful Presence)` on a failed save
+  (`end: true`, so it lasts to the end of the target's next turn). On a success
+  it puts a 24-hour (14400-round) immunity marker on the target instead.
+- **Singularity** is a 1-minute concentration effect on you. It carries **Void's
+  Mastery**: resistance to every damage type except Force, Radiant, and
+  Psychic. The resistances end with concentration. Void's Mastery also applies
+  while you concentrate on an area necrotic/psychic spell, which this action
+  doesn't track.
+- **Singularity Pulse** is the start-of-turn Strength save (3d6 Psychic, half on
+  a success). Pulling, Entropic Collapse, and terrain erosion are text reminders.

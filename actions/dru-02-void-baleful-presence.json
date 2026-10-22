@@ -1,0 +1,41 @@
+{
+  "_v": 2,
+  "name": "Baleful Presence",
+  "automation": [
+    {
+      "type": "target",
+      "target": "each",
+      "effects": [
+        {
+          "type": "save",
+          "stat": "wis",
+          "fail": [
+            {
+              "type": "ieffect2",
+              "name": "Frightened (Baleful Presence)",
+              "duration": 1,
+              "end": true,
+              "desc": "Frightened of the Druid until the end of its next turn."
+            }
+          ],
+          "success": [
+            {
+              "type": "ieffect2",
+              "name": "Immune to Baleful Presence",
+              "duration": 14400,
+              "desc": "Succeeded on the save — immune to this Druid's Baleful Presence for 24 hours."
+            }
+          ],
+          "dc": "8 + proficiencyBonus + wisdomMod"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "text": "**Once per turn**, when you hit a creature with a melee attack while your **Entropic Shroud** is active, it makes a Wisdom saving throw. On a failure it is **Frightened** of you until the end of its next turn. A creature that succeeds is immune to your Baleful Presence for 24 hours."
+    }
+  ],
+  "activation_type": 6,
+  "verb": "turns the Void's gaze on",
+  "thumb": null
+}

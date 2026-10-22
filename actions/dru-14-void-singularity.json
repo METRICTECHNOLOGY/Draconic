@@ -1,0 +1,34 @@
+{
+  "_v": 2,
+  "name": "Singularity",
+  "automation": [
+    {
+      "type": "counter",
+      "counter": "Singularity",
+      "amount": "1"
+    },
+    {
+      "type": "target",
+      "target": "self",
+      "effects": [
+        {
+          "type": "ieffect2",
+          "name": "Singularity",
+          "duration": 10,
+          "concentration": true,
+          "effects": {
+            "resistances": ["acid", "bludgeoning", "cold", "fire", "lightning", "necrotic", "piercing", "poison", "slashing", "thunder"]
+          },
+          "desc": "15-ft-radius vortex of emptiness centred on a point within 60 ft (Concentration, 1 minute). Creatures that start their turn in it make the Singularity Pulse save. Void's Mastery: resistance to all damage except Force, Radiant, and Psychic while concentrating. By the end of the minute, terrain and nonmagical objects in the area are heavily pitted or eroded (DM's discretion)."
+        },
+        {
+          "type": "text",
+          "text": "A **15-foot-radius** vortex of emptiness appears at a point you can see within **60 feet**, lasting **1 minute** (Concentration). You can exclude yourself from its effects.\nAt the **start of each creature's turn** in the area, run **Singularity Pulse** on it: Strength save or be **pulled 10 ft** toward the centre and take **3d6 Psychic** (half and no pull on a success).\n**Void's Mastery** — while concentrating, you have Resistance to all damage except Force, Radiant, and Psychic (applied by the effect above).\nBy the end of the minute, terrain and nonmagical objects in the area are heavily pitted or eroded — floors may weaken, walls shatter, structures degrade (DM's discretion)."
+        }
+      ]
+    }
+  ],
+  "activation_type": 1,
+  "verb": "collapses a pocket of the world into the Void,",
+  "thumb": null
+}
