@@ -108,36 +108,49 @@ Earth`, and `Slot Level` counters these actions expect.
   Ruinous Smite crit range → `-criton 19` / `!csettings criton 19`. Size change and
   the Prone condition are plain text reminders.
 
-## Druid — Void Circle
+## Druid — Circle of the Void
 
-Subclass actions for a Void-themed Druid (homebrew) whose Wild Shape and
-high-level power draw on the still, cold hush of the Void.
+Draconic aliases (`<drac2>` blocks) for the Circle of the Void Druid
+(homebrew). Each file in `aliases/circle-of-the-void/` is one alias.
 
-| Level | Feature | File | Activation |
-| ----- | ------- | ---- | ---------- |
-| 2 | Entropic Shroud — Void-Touched Wild Shape / Entropic Strikes | `actions/dru-02-void-entropic-shroud.json` | Bonus Action |
-| 2 | Entropic Shroud — Baleful Presence | `actions/dru-02-void-baleful-presence.json` | No Action |
-| 14 | Collapse into Nothing — Singularity | `actions/dru-14-void-singularity.json` | Action |
-| 14 | Collapse into Nothing — Singularity start-of-turn save | `actions/dru-14-void-singularity-pulse.json` | No Action |
-| 14 | Collapse into Nothing — Entropic Collapse | folded into `dru-14-void-singularity-pulse.json` (text) | — |
-| 14 | Collapse into Nothing — Void's Mastery | folded into `dru-14-void-singularity.json` (resistances on the effect) | — |
+| Level | Feature | Alias | File |
+| ----- | ------- | ----- | ---- |
+| 2 | Entropic Shroud (Void-Touched Wild Shape, Entropic Strikes) | `!shroud [psychic] [-i]` | `aliases/circle-of-the-void/shroud.alias` |
+| 2 | Entropic Shroud: Baleful Presence | `!baleful -t <target>` | `aliases/circle-of-the-void/baleful.alias` |
+| 14 | Collapse into Nothing: Singularity, Void's Mastery | `!singularity [-i]` | `aliases/circle-of-the-void/singularity.alias` |
+| 14 | Collapse into Nothing: start-of-turn save, Entropic Collapse | `!pulse -t <target>` | `aliases/circle-of-the-void/pulse.alias` |
 
-See [`actions/setup.md`](actions/setup.md) for the `Wild Shape` and
-`Singularity` counters these actions expect.
+### Installing
 
-### Design notes
+Create each alias with the file's contents, named after the file. For example:
 
-- **Entropic Shroud** spends a Wild Shape use and applies a self effect lasting
-  the Wild Shape duration (`levels.druid // 2` hours) with `damage_bonus:
-  1d4[necrotic]`. Change it to `[psychic]` to switch the type. Remove the effect
-  to revert to your normal appearance and keep the beast statistics.
-- **Baleful Presence** puts `Frightened (Baleful Presence)` on a failed save
-  (`end: true`, so it lasts to the end of the target's next turn). On a success
-  it puts a 24-hour (14400-round) immunity marker on the target instead.
-- **Singularity** is a 1-minute concentration effect on you. It carries **Void's
-  Mastery**: resistance to every damage type except Force, Radiant, and
-  Psychic. The resistances end with concentration. Void's Mastery also applies
-  while you concentrate on an area necrotic/psychic spell, which this action
-  doesn't track.
-- **Singularity Pulse** is the start-of-turn Strength save (3d6 Psychic, half on
-  a success). Pulling, Entropic Collapse, and terrain erosion are text reminders.
+```
+!alias shroud <paste the contents of shroud.alias>
+```
+
+`singularity.alias` is longer than a 2,000-character Discord message, so add it
+through the Avrae dashboard (Customization → Aliases) instead.
+
+### What each alias does
+
+- **`!shroud`** spends one use of your `Wild Shape` counter (`-i` skips this).
+  In combat it adds an **Entropic Shroud** effect lasting your Wild Shape duration
+  (half your Druid level in hours) that adds `1d4 [necrotic]` to your attacks.
+  Add `psychic` to use psychic damage instead. Remove the effect to revert to your
+  normal Wild Shape appearance.
+- **`!baleful`** rolls each target's Wisdom save against your spell save DC. On a
+  failure the target gets **Frightened (Baleful Presence)** until the end of its
+  next turn. On a success it gets a 24-hour **Immune to Baleful Presence** effect,
+  and the alias skips it while that effect lasts.
+- **`!singularity`** spends the 1/Long Rest `Singularity` counter (created
+  automatically the first time). In combat it adds a 1-minute concentration
+  effect with Void's Mastery: resistance to all damage except force, radiant and
+  psychic. The resistance ends when concentration does.
+- **`!pulse`** rolls 3d6 psychic once. Each target makes a Strength save against
+  your spell save DC and takes full or half damage. Any target that drops to 0 HP
+  gets the Entropic Collapse prompt.
+
+Outside combat, or without `-t`, each alias posts the rules text and the DC so
+you can resolve it by hand. Avrae can't move tokens, erode terrain, or detect
+concentration on other spells, so the pull, Entropic Collapse choice, erosion,
+and Void's Mastery for other area spells stay as text.

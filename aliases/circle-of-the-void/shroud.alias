@@ -1,0 +1,37 @@
+embed <drac2>
+# !shroud [psychic] [-i]
+# Entropic Shroud (Circle of the Void, Druid 2) - Void-Touched Wild Shape.
+args = &ARGS&
+a = argparse(args)
+ch = character()
+c = combat()
+me = c.me if c else None
+lvl = ch.levels.get("Druid")
+cc = "Wild Shape"
+dtype = "psychic" if "psychic" in args else "necrotic"
+hours = max(1, lvl // 2)
+T = "Entropic Shroud"
+C = "-color #2b1a40"
+
+if lvl < 2:
+  return f'-title "{T}" -desc "Requires Druid level 2." {C}'
+
+used = ""
+if not a.last("i"):
+  if not ch.cc_exists(cc):
+    return f'-title "{T}" -desc "No `{cc}` counter. Create it first (see setup.md) or run with `-i`." {C}'
+  if ch.get_cc(cc) < 1:
+    return f'-title "{T}" -desc "You have no {cc} uses left." {C}'
+  ch.mod_cc(cc, -1)
+  used = f"\n**{cc}:** {ch.cc_str(cc)} (-1)"
+
+shroud = f"**Entropic Strikes.** Natural weapon attacks deal an extra **1d4 {dtype.title()}**.\n**Baleful Presence.** Once per turn on a melee hit, run `{ctx.prefix}baleful -t <target>`."
+note = ""
+if me:
+  if me.get_effect(T):
+    me.remove_effect(T)
+  me.add_effect(T, duration=hours * 600, passive_effects={"damage_bonus": f"1d4 [{dtype}]"}, desc=f"Void-Touched Wild Shape: +1d4 {dtype} on attacks. Baleful Presence once per turn on a melee hit. Remove this effect to revert to your normal Wild Shape appearance.")
+  note = f"\n\nAdded effect **{T}** ({hours} hr) - your attacks add 1d4 {dtype}."
+
+return f'-title "{name} wild shapes, wreathed in the hush of the Void" -desc "Your beast form is cloaked in inky darkness, swirling motes of starlight, or crackling void energy.{used}" -f "{T}|{shroud}{note}" -footer "Circle of the Void | Revert your appearance any time by removing the effect: {ctx.prefix}i re {name} \'{T}\'" {C}'
+</drac2>

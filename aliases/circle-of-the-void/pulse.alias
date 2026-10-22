@@ -1,0 +1,37 @@
+embed <drac2>
+# !pulse -t <target> [-t <target> ...]
+# Singularity start-of-turn save (Collapse into Nothing, Circle of the Void).
+a = argparse(&ARGS&)
+ch = character()
+c = combat()
+dc = ch.spellbook.dc or (8 + proficiencyBonus + wisdomMod)
+C = "-color #2b1a40"
+targets = [t.split("|")[0] for t in a.get("t")]
+r = vroll("3d6 [psychic]")
+full = r.total
+half = full // 2
+fields = []
+
+if not c or not targets:
+  return f'-title "The Void gnaws at the mind" -desc "**DC {dc} Strength** saving throw.\n**Damage:** {r}\n**Failure:** {full} Psychic and pulled 10 ft toward the center.\n**Success:** {half} Psychic, not pulled." -footer "In combat: {ctx.prefix}pulse -t <target>" {C}'
+
+for tn in targets:
+  t = c.get_combatant(tn)
+  if not t:
+    fields.append(f'-f "{tn}|Not found in combat."')
+    continue
+  s = t.save("str")
+  if s.total >= dc:
+    d = t.damage(f"{half} [psychic]")
+    res = "**Success!** Half damage, not pulled."
+  else:
+    d = t.damage(f"{full} [psychic]")
+    res = "**Failure!** Pulled 10 ft toward the center."
+  hp = t.hp_str()
+  if t.hp is not None and t.hp <= 0:
+    hp = hp + "\n**Entropic Collapse!** Choose: the creature is **killed** (dissolves into black ash) or **transported** to a demiplane of emptiness, stabilizing at 0 HP and returning when the singularity ends."
+  fields.append(f'-f "{t.name}|**STR Save:** {s}\n{res}\n{d["damage"]}\n{hp}"')
+
+out = " ".join(fields)
+return f'-title "The Void gnaws at the mind" -desc "**DC {dc} Strength** saving throw.\n**Damage roll:** {r}" {out} -footer "Circle of the Void | Singularity" {C}'
+</drac2>

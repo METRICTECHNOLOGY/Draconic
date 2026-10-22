@@ -1,0 +1,38 @@
+embed <drac2>
+# !baleful -t <target> [-t <target> ...]
+# Baleful Presence (Entropic Shroud, Circle of the Void) - once per turn on a melee hit.
+a = argparse(&ARGS&)
+ch = character()
+c = combat()
+dc = ch.spellbook.dc or (8 + proficiencyBonus + wisdomMod)
+T = "Baleful Presence"
+FR = "Frightened (Baleful Presence)"
+IM = "Immune to Baleful Presence"
+C = "-color #2b1a40"
+targets = [t.split("|")[0] for t in a.get("t")]
+fields = []
+
+if not c or not targets:
+  return f'-title "{name} turns the Void upon a foe" -desc "The creature makes a **DC {dc} Wisdom** saving throw. On a failure it is **Frightened** of you until the end of its next turn. On a success it is immune to your Baleful Presence for 24 hours." -footer "In combat: {ctx.prefix}baleful -t <target>" {C}'
+
+for tn in targets:
+  t = c.get_combatant(tn)
+  if not t:
+    fields.append(f'-f "{tn}|Not found in combat."')
+    continue
+  if t.get_effect(IM):
+    fields.append(f'-f "{t.name}|Immune - already resisted your Baleful Presence within 24 hours."')
+    continue
+  s = t.save("wis")
+  if s.total >= dc:
+    t.add_effect(IM, duration=14400, desc="Succeeded on a save against Baleful Presence. Immune for 24 hours.")
+    fields.append(f'-f "{t.name}|**WIS Save:** {s}\n**Success!** Immune to your Baleful Presence for 24 hours."')
+  else:
+    if t.get_effect(FR):
+      t.remove_effect(FR)
+    t.add_effect(FR, duration=1, end=True, desc=f"Frightened of {name} until the end of its next turn.")
+    fields.append(f'-f "{t.name}|**WIS Save:** {s}\n**Failure!** Frightened of {name} until the end of its next turn."')
+
+out = " ".join(fields)
+return f'-title "{name} turns the Void upon their foe" -desc "**DC {dc} Wisdom** saving throw." {out} -footer "Circle of the Void | {T}: once per turn" {C}'
+</drac2>
