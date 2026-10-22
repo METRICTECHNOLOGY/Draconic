@@ -107,3 +107,56 @@ Earth`, and `Slot Level` counters these actions expect.
   real mechanisms: Advantage vs Bloodied → `-adv`, Increased Might → `-b`, Enhanced
   Ruinous Smite crit range → `-criton 19` / `!csettings criton 19`. Size change and
   the Prone condition are plain text reminders.
+
+## Druid — Circle of the Void
+
+Draconic aliases (`<drac2>` blocks) for the Circle of the Void Druid
+(homebrew). Each file in `aliases/circle-of-the-void/` is one alias.
+
+| Level | Feature | Alias | File |
+| ----- | ------- | ----- | ---- |
+| 2 | Entropic Shroud (Void-Touched Wild Shape, Entropic Strikes) | `!shroud [psychic] [-i]` | `aliases/circle-of-the-void/shroud.alias` |
+| 2 | Entropic Shroud: Baleful Presence | `!baleful -t <target>` | `aliases/circle-of-the-void/baleful.alias` |
+| 14 | Collapse into Nothing: Singularity, Void's Mastery | `!singularity [-i]` | `aliases/circle-of-the-void/singularity.alias` |
+| 14 | Collapse into Nothing: start-of-turn save, Entropic Collapse | `!pulse -t <target>` | `aliases/circle-of-the-void/pulse.alias` |
+| 14 | Collapse into Nothing: Void's Mastery on/off | `!mastery [off]` | `aliases/circle-of-the-void/mastery.alias` |
+
+### Installing
+
+Create each alias with the file's contents, named after the file. For example:
+
+```
+!alias shroud <paste the contents of shroud.alias>
+```
+
+Each alias is under Discord's 2,000-character message limit, so it can be pasted
+straight into chat.
+
+### What each alias does
+
+- **`!shroud`** spends one use of your `Wild Shape` counter (`-i` skips this).
+  In combat it adds an **Entropic Shroud** effect lasting your Wild Shape duration
+  (half your Druid level in hours) that adds `1d4 [necrotic]` to your attacks.
+  Add `psychic` to use psychic damage instead. Remove the effect to revert to your
+  normal Wild Shape appearance.
+- **`!baleful`** rolls each target's Wisdom save against your spell save DC. On a
+  failure the target gets **Frightened (Baleful Presence)** until the end of its
+  next turn. On a success it gets a 24-hour **Immune to Baleful Presence** effect,
+  and the alias skips it while that effect lasts.
+- **`!singularity`** spends the 1/Long Rest `Singularity` counter (created
+  automatically the first time). In combat it adds a 1-minute concentration
+  effect, **Singularity**, with a child effect, **Void's Mastery**, that gives
+  resistance to all damage except force, radiant and psychic. Both end when
+  concentration does.
+- **`!mastery`** adds **Void's Mastery** under whatever you're concentrating on
+  (for an area necrotic/psychic spell), so it ends with that concentration.
+  **`!mastery off`** removes only the Void's Mastery effect. Resistances from
+  items, features and other effects live on the character sheet or their own
+  effects, so they stay as they are.
+- **`!pulse`** rolls 3d6 psychic once. Each target makes a Strength save against
+  your spell save DC and takes full or half damage. Any target that drops to 0 HP
+  gets the Entropic Collapse prompt.
+
+Outside combat, or without `-t`, each alias posts the rules text and the DC so
+you can resolve it by hand. Avrae can't move tokens or erode terrain, so the pull,
+Entropic Collapse choice and erosion stay as text.

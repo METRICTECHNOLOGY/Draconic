@@ -1,0 +1,26 @@
+embed <drac2>
+args = &ARGS&
+c = combat()
+me = c.me if c else None
+T = "Void's Mastery"
+C = "-color #2b1a40"
+res = ["acid", "bludgeoning", "cold", "fire", "lightning", "necrotic", "piercing", "poison", "slashing", "thunder"]
+keep = "Resistances from items, features and other effects are not changed."
+if not me:
+  return f'-title "{T}" -desc "Join initiative first. This alias tracks the resistances as a combat effect." {C}'
+if "off" in args:
+  if not me.get_effect(T):
+    return f'-title "{T}" -desc "{T} is not active. {keep}" {C}'
+  me.remove_effect(T)
+  return f'-title "{name} releases the Void" -desc "Removed the **{T}** resistances only. Concentration and the Singularity continue. {keep}" {C}'
+conc = None
+for e in me.effects:
+  if e.conc:
+    conc = e
+if not conc:
+  return f'-title "{T}" -desc "You are not concentrating on anything. Concentrate on your Singularity or an area necrotic/psychic spell first." {C}'
+if me.get_effect(T):
+  me.remove_effect(T)
+me.add_effect(T, parent=conc, passive_effects={"resistances": res}, desc="Resist all but force, radiant, psychic.")
+return f'-title "{name} wraps themself in the Void" -desc "**{T}:** while you concentrate on **{conc.name}**, you have **Resistance** to all damage except Force, Radiant and Psychic. It ends with your concentration, or run `{ctx.prefix}mastery off`. {keep}" {C}'
+</drac2>

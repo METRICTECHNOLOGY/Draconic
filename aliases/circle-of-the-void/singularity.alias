@@ -1,0 +1,30 @@
+embed <drac2>
+a = argparse(&ARGS&)
+ch = character()
+c = combat()
+me = c.me if c else None
+dc = ch.spellbook.dc or (8 + proficiencyBonus + wisdomMod)
+T = "Singularity"
+C = "-color #2b1a40"
+if ch.levels.get("Druid") < 14:
+  return f'-title "{T}" -desc "Requires Druid level 14." {C}'
+ch.create_cc_nx(T, minVal=0, maxVal=1, reset="long", dispType="bubble", desc="Collapse into Nothing, 1/Long Rest.")
+used = ""
+if not a.last("i"):
+  if ch.get_cc(T) < 1:
+    return f'-title "{T}" -desc "Already used. Recharges on a Long Rest." {C}'
+  ch.mod_cc(T, -1)
+  used = f"\n**{T}:** {ch.cc_str(T)} (-1)"
+note = ""
+if me:
+  res = ["acid", "bludgeoning", "cold", "fire", "lightning", "necrotic", "piercing", "poison", "slashing", "thunder"]
+  if me.get_effect(T):
+    me.remove_effect(T)
+  p = me.add_effect(T, duration=10, concentration=True, desc=f"15-ft vortex, DC {dc} STR save at start of turn.")
+  me.add_effect("Void's Mastery", parent=p, passive_effects={"resistances": res}, desc="Resist all but force, radiant, psychic.")
+  note = f"\nEffects added (1 min, concentration). Drop the resistances only: `{ctx.prefix}mastery off`."
+v = f"Creatures starting their turn in it: **DC {dc} STR** save or **pulled 10 ft** to the center and take **3d6 Psychic**. Success: half, no pull. `{ctx.prefix}pulse -t <target>`"
+e = "At 0 HP from this, your choice: **killed** (black ash) or **transported** to a demiplane of emptiness at 0 HP until it ends."
+m = f"While concentrating on this or an area necrotic/psychic spell: Resistance to all but Force, Radiant, Psychic.{note}"
+return f'-title "{name} collapses the world into nothing" -desc "A **15-ft-radius** vortex of emptiness appears at a point within **60 ft** for **1 minute** (Concentration). You can exclude yourself. Terrain and objects in it erode (DM).{used}" -f "Vortex|{v}" -f "Entropic Collapse|{e}" -f "Void\'s Mastery|{m}" -footer "Circle of the Void" {C}'
+</drac2>

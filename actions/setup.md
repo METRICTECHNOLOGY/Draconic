@@ -78,3 +78,9 @@ For each `.json` file in this folder, run `!a import <gist url>` or paste it
 through the Avrae dashboard (Customization → Actions → Import). The action's
 `activation_type` controls whether Avrae files it under Action / Bonus Action /
 Reaction / No Action / Special.
+
+## Druid — Circle of the Void Counters
+
+`!shroud` spends a use from the same **Wild Shape** counter shown above. Reuse
+it if it already exists. `!singularity` creates its own 1/Long Rest
+**Singularity** counter the first time you run it.
