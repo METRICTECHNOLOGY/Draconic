@@ -119,6 +119,7 @@ Draconic aliases (`<drac2>` blocks) for the Circle of the Void Druid
 | 2 | Entropic Shroud: Baleful Presence | `!baleful -t <target>` | `aliases/circle-of-the-void/baleful.alias` |
 | 14 | Collapse into Nothing: Singularity, Void's Mastery | `!singularity [-i]` | `aliases/circle-of-the-void/singularity.alias` |
 | 14 | Collapse into Nothing: start-of-turn save, Entropic Collapse | `!pulse -t <target>` | `aliases/circle-of-the-void/pulse.alias` |
+| 14 | Collapse into Nothing: Void's Mastery on/off | `!mastery [off]` | `aliases/circle-of-the-void/mastery.alias` |
 
 ### Installing
 
@@ -144,13 +145,18 @@ straight into chat.
   and the alias skips it while that effect lasts.
 - **`!singularity`** spends the 1/Long Rest `Singularity` counter (created
   automatically the first time). In combat it adds a 1-minute concentration
-  effect with Void's Mastery: resistance to all damage except force, radiant and
-  psychic. The resistance ends when concentration does.
+  effect, **Singularity**, with a child effect, **Void's Mastery**, that gives
+  resistance to all damage except force, radiant and psychic. Both end when
+  concentration does.
+- **`!mastery`** adds **Void's Mastery** under whatever you're concentrating on
+  (for an area necrotic/psychic spell), so it ends with that concentration.
+  **`!mastery off`** removes only the Void's Mastery effect. Resistances from
+  items, features and other effects live on the character sheet or their own
+  effects, so they stay as they are.
 - **`!pulse`** rolls 3d6 psychic once. Each target makes a Strength save against
   your spell save DC and takes full or half damage. Any target that drops to 0 HP
   gets the Entropic Collapse prompt.
 
 Outside combat, or without `-t`, each alias posts the rules text and the DC so
-you can resolve it by hand. Avrae can't move tokens, erode terrain, or detect
-concentration on other spells, so the pull, Entropic Collapse choice, erosion,
-and Void's Mastery for other area spells stay as text.
+you can resolve it by hand. Avrae can't move tokens or erode terrain, so the pull,
+Entropic Collapse choice and erosion stay as text.
