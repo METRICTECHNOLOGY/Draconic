@@ -128,8 +128,8 @@ Create each alias with the file's contents, named after the file. For example:
 !alias shroud <paste the contents of shroud.alias>
 ```
 
-`singularity.alias` is longer than a 2,000-character Discord message, so add it
-through the Avrae dashboard (Customization → Aliases) instead.
+Each alias is under Discord's 2,000-character message limit, so it can be pasted
+straight into chat.
 
 ### What each alias does
 
